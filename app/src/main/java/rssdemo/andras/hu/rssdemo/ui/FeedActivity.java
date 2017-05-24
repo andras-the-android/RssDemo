@@ -1,4 +1,4 @@
-package rssdemo.andras.hu.rssdemo;
+package rssdemo.andras.hu.rssdemo.ui;
 
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
@@ -7,29 +7,46 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
 import android.view.MenuItem;
 
+import rssdemo.andras.hu.rssdemo.R;
+import rssdemo.andras.hu.rssdemo.data.Feed;
 import rssdemo.andras.hu.rssdemo.databinding.ActivityFeedBinding;
+import rssdemo.andras.hu.rssdemo.di.Injector;
+import rssdemo.andras.hu.rssdemo.repository.FeedRepository;
 
 public class FeedActivity extends AppCompatActivity {
 
+    public FeedRepository feedRepository;
     private ActivityFeedBinding binding;
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Injector.inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_feed);
         setSupportActionBar(binding.toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initDrawer();
+
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        binding.recyclerView.setAdapter(adapter);
+    }
+
+    private void initDrawer() {
         drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, R.string.app_name, R.string.app_name);
         binding.drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        binding.recyclerView.setAdapter(adapter);
+
+        final Menu menu = binding.navigation.getMenu();
+        for (Feed feed : feedRepository.getFeeds()) {
+            menu.add(feed.getName());
+        }
     }
 
     @Override
