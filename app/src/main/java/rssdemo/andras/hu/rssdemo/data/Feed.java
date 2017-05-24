@@ -1,28 +1,16 @@
 package rssdemo.andras.hu.rssdemo.data;
 
-/**
- * Created by Andras Nemeth on 2017. 05. 24..
- */
+import java.util.List;
 
 public class Feed {
 
-    private String name;
-    private String url;
+    private List<FeedItem> items;
 
-    public String getName() {
-        return name;
+    public List<FeedItem> getItems() {
+        return items;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItems(List<FeedItem> items) {
+        this.items = items;
     }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
 }

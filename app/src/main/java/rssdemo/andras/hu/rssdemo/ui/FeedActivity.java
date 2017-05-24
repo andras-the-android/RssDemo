@@ -11,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import rssdemo.andras.hu.rssdemo.R;
-import rssdemo.andras.hu.rssdemo.data.Feed;
+import rssdemo.andras.hu.rssdemo.data.Subscription;
 import rssdemo.andras.hu.rssdemo.databinding.ActivityFeedBinding;
 import rssdemo.andras.hu.rssdemo.di.Injector;
 import rssdemo.andras.hu.rssdemo.repository.FeedRepository;
@@ -21,6 +21,7 @@ public class FeedActivity extends AppCompatActivity {
     public FeedRepository feedRepository;
     private ActivityFeedBinding binding;
     private ActionBarDrawerToggle drawerToggle;
+    private FeedAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,9 @@ public class FeedActivity extends AppCompatActivity {
         initDrawer();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        binding.recyclerView.setAdapter(adapter);
+        adapter = new FeedAdapter();
+        binding.recyclerView.setAdapter(adapter);
+        adapter.setItems(feedRepository.loadFeed("").getItems());
     }
 
     private void initDrawer() {
@@ -44,8 +47,8 @@ public class FeedActivity extends AppCompatActivity {
 
 
         final Menu menu = binding.navigation.getMenu();
-        for (Feed feed : feedRepository.getFeeds()) {
-            menu.add(feed.getName());
+        for (Subscription subscription : feedRepository.getSubscriptions()) {
+            menu.add(subscription.getName());
         }
     }
 
