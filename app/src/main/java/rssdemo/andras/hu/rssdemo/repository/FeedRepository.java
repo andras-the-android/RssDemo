@@ -11,13 +11,15 @@ import rx.Observable;
 public class FeedRepository {
 
     private FeedConverter feedConverter;
+    private List<Subscription> subscriptions;
 
     public FeedRepository(FeedConverter feedConverter) {
         this.feedConverter = feedConverter;
+        loadSubscriptions();
     }
 
-    public List<Subscription> getSubscriptions() {
-        List<Subscription> subscriptions = new ArrayList<>();
+    private void loadSubscriptions() {
+        subscriptions = new ArrayList<>();
         Subscription subscription;
         subscription = new Subscription();
         subscription.setName("Android Authority");
@@ -33,20 +35,22 @@ public class FeedRepository {
         subscription.setName("Android Developers");
         subscription.setUrl("https://android-developers.blogspot.com/atom.xml");
         subscriptions.add(subscription);
+    }
 
+    public List<Subscription> getSubscriptions() {
         return subscriptions;
     }
 
     public Observable<Feed> getFeed(final String url) {
-        return Observable.fromCallable(new Callable<Feed>() {
-            @Override
-            public Feed call() throws Exception {
-                return feedConverter.convert(url);
-            }
-        });
+        return Observable.fromCallable(() -> feedConverter.convert(url));
     }
 
-
-
-
+    public String getUrlByName(CharSequence title) {
+        for (Subscription subscription : subscriptions) {
+            if (title.equals(subscription.getName())) {
+                return subscription.getUrl();
+            }
+        }
+        throw new IllegalArgumentException("Non existing title");
+    }
 }
