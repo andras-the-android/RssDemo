@@ -2,24 +2,31 @@ package rssdemo.andras.hu.rssdemo.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import rssdemo.andras.hu.rssdemo.data.Feed;
-import rssdemo.andras.hu.rssdemo.data.FeedItem;
 import rssdemo.andras.hu.rssdemo.data.Subscription;
+import rx.Observable;
 
 public class FeedRepository {
+
+    private FeedConverter feedConverter;
+
+    public FeedRepository(FeedConverter feedConverter) {
+        this.feedConverter = feedConverter;
+    }
 
     public List<Subscription> getSubscriptions() {
         List<Subscription> subscriptions = new ArrayList<>();
         Subscription subscription;
         subscription = new Subscription();
         subscription.setName("Android Authority");
-        subscription.setUrl("http://www.androidauthority.com/subscription");
+        subscription.setUrl("http://www.androidauthority.com/feed");
         subscriptions.add(subscription);
 
         subscription = new Subscription();
         subscription.setName("Android Police");
-        subscription.setUrl("http://www.androidpolice.com/subscription");
+        subscription.setUrl("http://www.androidpolice.com/feed");
         subscriptions.add(subscription);
 
         subscription = new Subscription();
@@ -30,23 +37,16 @@ public class FeedRepository {
         return subscriptions;
     }
 
-    public Feed loadFeed(String url) {
-        Feed feed = new Feed();
-        List<FeedItem> items = new ArrayList<>();
-
-        FeedItem item = new FeedItem();
-        item.setTitle("Android Authority");
-        item.setDescription("Android News blog dedicated to providing expert tips, news, reviews, Android Phones, Android Apps, Android Tablet, Rooting & Howtos.");
-        item.setUrl("\"http://www.androidpolice.com/subscription\"");
-        item.setDate("2017.05.01 12:34");
-        item.setImageUrl("http://cdn01.androidauthority.net/wp-content/uploads/2016/07/Pokemon-Go-Pokeball-Poke-Ball-2-1340x754.jpg");
-        items.add(item);
-        items.add(item);
-        items.add(item);
-
-        feed.setItems(items);
-        return feed;
+    public Observable<Feed> getFeed(final String url) {
+        return Observable.fromCallable(new Callable<Feed>() {
+            @Override
+            public Feed call() throws Exception {
+                return feedConverter.convert(url);
+            }
+        });
     }
+
+
 
 
 }

@@ -4,8 +4,8 @@ package rssdemo.andras.hu.rssdemo.data;
 public class FeedItem {
 
     private String title;
-    private String url;
-    private String imageUrl;
+    private String link;
+    private String imageLink;
     private String date;
     private String description;
 
@@ -17,20 +17,20 @@ public class FeedItem {
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
+    public String getLink() {
+        return link;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setLink(String link) {
+        this.link = link;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImageLink() {
+        return imageLink;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageLink(String imageLink) {
+        this.imageLink = imageLink;
     }
 
     public String getDate() {

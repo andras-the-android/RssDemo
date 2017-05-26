@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RSS Demo</string>
+    <string name="errror_load_feed">Error loading feed</string>
 </resources>
