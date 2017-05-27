@@ -1,14 +1,13 @@
-package rssdemo.andras.hu.rssdemo.ui;
+package rssdemo.andras.hu.rssdemo.ui.feed;
 
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -19,11 +18,8 @@ import rssdemo.andras.hu.rssdemo.R;
 import rssdemo.andras.hu.rssdemo.data.Subscription;
 import rssdemo.andras.hu.rssdemo.databinding.ActivityFeedBinding;
 import rssdemo.andras.hu.rssdemo.di.Injector;
-import rssdemo.andras.hu.rssdemo.repository.FeedRepository;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-//7 pomodoros
+//15 pomodoros
 public class FeedActivity extends AppCompatActivity implements FeedView {
 
     private static final long DRAWER_CLOSE_DELAY_MS = 200;
@@ -59,8 +55,9 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
     @Override
     public void populateDrawerMenu(List<Subscription> subscriptions) {
         final Menu menu = binding.navigation.getMenu();
+        int order = 0;
         for (Subscription subscription : subscriptions) {
-            menu.add(subscription.getName());
+            menu.add(R.id.nav_drawer_feeds, order, order++, subscription.getName());
         }
     }
 
@@ -81,12 +78,7 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
         // so the user can see what is happening. This may seem a bit hacky but in practice
         // it works noticeably faster than listening to the onDrawerClosed callback
         binding.drawerLayout.closeDrawer(GravityCompat.START);
-        drawerActionHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                viewModel.onDrawerMenuSelection(menuItem.getTitle());
-            }
-        }, DRAWER_CLOSE_DELAY_MS);
+        drawerActionHandler.postDelayed(() -> viewModel.onDrawerMenuSelection(menuItem), DRAWER_CLOSE_DELAY_MS);
 
         return true;
     }

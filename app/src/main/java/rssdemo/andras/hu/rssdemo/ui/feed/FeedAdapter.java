@@ -1,4 +1,4 @@
-package rssdemo.andras.hu.rssdemo.ui;
+package rssdemo.andras.hu.rssdemo.ui.feed;
 
 
 import android.support.v7.widget.RecyclerView;

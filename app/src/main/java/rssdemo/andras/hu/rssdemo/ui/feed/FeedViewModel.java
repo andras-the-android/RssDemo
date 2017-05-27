@@ -1,15 +1,15 @@
-package rssdemo.andras.hu.rssdemo.ui;
+package rssdemo.andras.hu.rssdemo.ui.feed;
 
 
-import android.nfc.Tag;
 import android.util.Log;
-import android.widget.Toast;
+import android.view.MenuItem;
 
 import java.util.List;
 
 import rssdemo.andras.hu.rssdemo.R;
 import rssdemo.andras.hu.rssdemo.data.Subscription;
 import rssdemo.andras.hu.rssdemo.repository.FeedRepository;
+import rssdemo.andras.hu.rssdemo.ui.Navigator;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -19,9 +19,11 @@ public class FeedViewModel {
 
     private FeedView view;
     private FeedRepository feedRepository;
+    private Navigator navigator;
 
-    public FeedViewModel(FeedRepository feedRepository) {
+    public FeedViewModel(FeedRepository feedRepository, Navigator navigator) {
         this.feedRepository = feedRepository;
+        this.navigator = navigator;
     }
 
     void setView(FeedView view) {
@@ -33,8 +35,12 @@ public class FeedViewModel {
         }
     }
 
-    void onDrawerMenuSelection(CharSequence title) {
-        loadFeed(feedRepository.getUrlByName(title));
+    void onDrawerMenuSelection(MenuItem menuItem) {
+        if (menuItem.getItemId() == R.id.nav_drawer_subscriptions) {
+            navigator.goToSubscriptionScreen();
+        } else {
+            loadFeed(feedRepository.getUrlByName(menuItem.getTitle()));
+        }
     }
 
 
