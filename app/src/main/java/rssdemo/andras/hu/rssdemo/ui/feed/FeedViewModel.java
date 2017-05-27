@@ -9,6 +9,7 @@ import java.util.List;
 import rssdemo.andras.hu.rssdemo.R;
 import rssdemo.andras.hu.rssdemo.data.Subscription;
 import rssdemo.andras.hu.rssdemo.repository.FeedRepository;
+import rssdemo.andras.hu.rssdemo.repository.SubscriptionRepository;
 import rssdemo.andras.hu.rssdemo.ui.Navigator;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -19,16 +20,18 @@ public class FeedViewModel {
 
     private FeedView view;
     private FeedRepository feedRepository;
+    private SubscriptionRepository subscriptionRepository;
     private Navigator navigator;
 
-    public FeedViewModel(FeedRepository feedRepository, Navigator navigator) {
+    public FeedViewModel(FeedRepository feedRepository, SubscriptionRepository subscriptionRepository, Navigator navigator) {
         this.feedRepository = feedRepository;
+        this.subscriptionRepository = subscriptionRepository;
         this.navigator = navigator;
     }
 
     void setView(FeedView view) {
         this.view = view;
-        List<Subscription> subscriptions = feedRepository.getSubscriptions();
+        List<Subscription> subscriptions = subscriptionRepository.getSubscriptions();
         view.populateDrawerMenu(subscriptions);
         if (!subscriptions.isEmpty()) {
             loadFeed(subscriptions.get(0).getUrl());
@@ -39,7 +42,7 @@ public class FeedViewModel {
         if (menuItem.getItemId() == R.id.nav_drawer_subscriptions) {
             navigator.goToSubscriptionScreen();
         } else {
-            loadFeed(feedRepository.getUrlByName(menuItem.getTitle()));
+            loadFeed(subscriptionRepository.getUrlByName(menuItem.getTitle().toString()));
         }
     }
 

@@ -4,6 +4,7 @@
 
     <data>
         <variable name="subscription" type="rssdemo.andras.hu.rssdemo.data.Subscription"/>
+        <variable name="handler" type="rssdemo.andras.hu.rssdemo.ui.subscriptions.editor.SubscriptionEditorViewModel"/>
     </data>
 
     <LinearLayout
@@ -57,7 +58,8 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
                 android:minWidth="10dp"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp"
+                android:onClick="@{(view) -> handler.onCancelClick()}"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -66,7 +68,8 @@
                 android:background="?attr/selectableItemBackground"
                 android:textColor="@color/colorAccent"
                 android:textSize="12sp"
-                android:minWidth="10dp"/>
+                android:minWidth="10dp"
+                android:onClick="@{(view) -> handler.onSaveClick()}"/>
 
         </LinearLayout>
 

@@ -4,11 +4,14 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import rssdemo.andras.hu.rssdemo.R;
 import rssdemo.andras.hu.rssdemo.databinding.ActivitySubscriptionsBinding;
 import rssdemo.andras.hu.rssdemo.di.Injector;
+import rssdemo.andras.hu.rssdemo.ui.subscriptions.editor.SubscriptionEditorDialogFragment;
 
 public class SubscriptionsActivity extends AppCompatActivity implements SubscriptionsView {
 
@@ -39,11 +42,22 @@ public class SubscriptionsActivity extends AppCompatActivity implements Subscrip
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_subscriptions, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.add_subscription:
+                SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create();
+                editor.show(getSupportFragmentManager(), "sdcd");
                 return true;
         }
         return super.onOptionsItemSelected(item);

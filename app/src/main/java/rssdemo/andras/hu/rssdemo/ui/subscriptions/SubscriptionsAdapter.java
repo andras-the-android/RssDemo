@@ -12,6 +12,7 @@ import java.util.List;
 import rssdemo.andras.hu.rssdemo.R;
 import rssdemo.andras.hu.rssdemo.data.Subscription;
 import rssdemo.andras.hu.rssdemo.databinding.ListItemSubscriptionBinding;
+import rssdemo.andras.hu.rssdemo.ui.subscriptions.editor.SubscriptionEditorDialogFragment;
 
 public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdapter.ViewHolder> {
 
@@ -68,7 +69,8 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
                     case R.id.menu_delete:
                         break;
                     case R.id.menu_edit:
-                        new SubscriptionEditor().show(activity.getSupportFragmentManager(), "sdcd");
+                        SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create(binding.getSubscription());
+                        editor.show(activity.getSupportFragmentManager(), "sdcd");
                         break;
                 }
                 return false;
