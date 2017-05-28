@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.List;
@@ -109,5 +110,15 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void showLoaderOverlay() {
+        binding.loaderOverlay.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoaderOverlay() {
+        binding.loaderOverlay.setVisibility(View.GONE);
     }
 }

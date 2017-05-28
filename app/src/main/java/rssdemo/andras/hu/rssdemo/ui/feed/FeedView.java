@@ -11,4 +11,8 @@ public interface FeedView {
     void populateDrawerMenu(List<Subscription> subscriptions);
 
     void showError();
+
+    void showLoaderOverlay();
+
+    void hideLoaderOverlay();
 }

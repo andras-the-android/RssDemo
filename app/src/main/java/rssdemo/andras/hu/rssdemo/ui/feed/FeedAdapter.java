@@ -21,9 +21,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
         this.navigator = navigator;
     }
 
-    public void setItems(List<FeedItem> items) {
+    void setItems(List<FeedItem> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    void clear() {
+        setItems(Collections.emptyList());
     }
 
     @Override

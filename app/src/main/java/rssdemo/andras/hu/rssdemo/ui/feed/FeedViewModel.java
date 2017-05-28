@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 import rssdemo.andras.hu.rssdemo.R;
+import rssdemo.andras.hu.rssdemo.data.Feed;
 import rssdemo.andras.hu.rssdemo.data.Subscription;
 import rssdemo.andras.hu.rssdemo.repository.FeedRepository;
 import rssdemo.andras.hu.rssdemo.repository.SubscriptionRepository;
@@ -48,14 +49,22 @@ public class FeedViewModel {
 
 
     private void loadFeed(String url) {
+        view.getAdapter().clear();
+        view.showLoaderOverlay();
         feedRepository.getFeed(url)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(feed -> view.getAdapter().setItems(feed.getItems()), this::onErrorLoadFeed);
+                .subscribe(this::onFeedLoaded, this::onErrorLoadFeed);
+    }
+
+    private void onFeedLoaded(Feed feed) {
+        view.getAdapter().setItems(feed.getItems());
+        view.hideLoaderOverlay();
     }
 
     private void onErrorLoadFeed(Throwable throwable) {
         Log.e(TAG, throwable.getMessage(), throwable);
+        view.hideLoaderOverlay();
         view.showError();
     }
 }
