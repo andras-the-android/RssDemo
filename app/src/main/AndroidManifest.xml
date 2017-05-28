@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeNoActionBar"
         android:name=".RssDemoApplication">
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
         <activity android:name=".ui.feed.FeedActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

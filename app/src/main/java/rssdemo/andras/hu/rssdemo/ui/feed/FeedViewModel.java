@@ -1,8 +1,12 @@
 package rssdemo.andras.hu.rssdemo.ui.feed;
 
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.MenuItem;
+
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 
 import java.util.List;
 
@@ -23,6 +27,7 @@ public class FeedViewModel {
     private FeedRepository feedRepository;
     private SubscriptionRepository subscriptionRepository;
     private Navigator navigator;
+    private String selectedFeedTitle;
 
     public FeedViewModel(FeedRepository feedRepository, SubscriptionRepository subscriptionRepository, Navigator navigator) {
         this.feedRepository = feedRepository;
@@ -39,20 +44,28 @@ public class FeedViewModel {
         view.populateDrawerMenu(subscriptions);
         if (!subscriptions.isEmpty()) {
             Subscription subscription = subscriptions.get(0);
-            view.setTitle(subscription.getName());
+            selectedFeedTitle = subscription.getName();
+            view.setTitle(selectedFeedTitle);
             loadFeed(subscription.getUrl());
         }
     }
-
 
     void onDrawerMenuSelection(MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.nav_drawer_subscriptions) {
             navigator.goToSubscriptionScreen();
         } else {
             String name = menuItem.getTitle().toString();
+            selectedFeedTitle = name;
             view.setTitle(name);
             loadFeed(subscriptionRepository.getUrlByName(name));
         }
+    }
+
+    void shareFeed() {
+        ShareLinkContent content = new ShareLinkContent.Builder()
+                .setContentUrl(Uri.parse(subscriptionRepository.getUrlByName(selectedFeedTitle)))
+                .build();
+        view.shareContent(content);
     }
 
     private void loadFeed(String url) {

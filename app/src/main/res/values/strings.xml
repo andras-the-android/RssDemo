@@ -16,4 +16,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="delete_confirmaion_message">Do you really want to delete this feed?</string>
+    <string name="facebook_app_id">465455747132702</string>
 </resources>
