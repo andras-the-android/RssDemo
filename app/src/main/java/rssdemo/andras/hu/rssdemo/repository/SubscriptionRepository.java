@@ -40,10 +40,6 @@ public class SubscriptionRepository {
     private void initDefaultSubscriptions() {
         subscriptions = new ArrayList<>();
         Subscription subscription;
-        subscription = new Subscription();
-        subscription.setName("Android Authority");
-        subscription.setUrl("http://www.androidauthority.com/feed");
-        subscriptions.add(subscription);
 
         subscription = new Subscription();
         subscription.setName("Android Police");
@@ -51,9 +47,15 @@ public class SubscriptionRepository {
         subscriptions.add(subscription);
 
         subscription = new Subscription();
-        subscription.setName("Android Developers");
-        subscription.setUrl("https://android-developers.blogspot.com/atom.xml");
+        subscription.setName("XKCD");
+        subscription.setUrl("https://xkcd.com/rss.xml");
         subscriptions.add(subscription);
+
+        subscription = new Subscription();
+        subscription.setName("Android Authority");
+        subscription.setUrl("http://www.androidauthority.com/feed");
+        subscriptions.add(subscription);
+
         saveSubscriptions();
     }
 
