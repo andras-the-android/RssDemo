@@ -88,7 +88,8 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
         int order = 0;
         menu.removeGroup(R.id.nav_drawer_feeds);
         for (Subscription subscription : subscriptions) {
-            menu.add(R.id.nav_drawer_feeds, order, order++, subscription.getName());
+            MenuItem menuItem = menu.add(R.id.nav_drawer_feeds, order, order++, subscription.getName());
+            menuItem.setIcon(R.drawable.ic_rss_feed_black);
         }
     }
 
