@@ -7,7 +7,8 @@ import java.util.List;
 
 import rssdemo.andras.hu.rssdemo.data.Subscription;
 
-public interface FeedView {
+interface FeedView {
+
     FeedAdapter getAdapter();
 
     void populateDrawerMenu(List<Subscription> subscriptions);
@@ -20,5 +21,5 @@ public interface FeedView {
 
     void setTitle(String name);
 
-    void shareContent(ShareLinkContent content);
+    void showFacebookShareDialog(ShareLinkContent content);
 }

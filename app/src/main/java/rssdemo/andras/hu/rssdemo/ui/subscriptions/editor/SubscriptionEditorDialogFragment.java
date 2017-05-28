@@ -26,12 +26,12 @@ public class SubscriptionEditorDialogFragment extends DialogFragment implements 
     public static SubscriptionEditorDialogFragment create(Subscription subscription) {
         SubscriptionEditorDialogFragment fragment = new SubscriptionEditorDialogFragment();
         Injector.inject(fragment);
+        Bundle args = new Bundle();
         if (subscription != null) {
-            Bundle args = new Bundle();
             args.putString(KEY_NAME, subscription.getName());
             args.putString(KEY_URL, subscription.getUrl());
-            fragment.setArguments(args);
         }
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -43,14 +43,12 @@ public class SubscriptionEditorDialogFragment extends DialogFragment implements 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ViewSubscriptionEditorBinding.inflate(inflater, container, false);
+
         Subscription subscription = new Subscription();
-        String name = null;
-        if (getArguments() != null) {
-            name = getArguments().getString(KEY_NAME);
-            subscription.setName(name);
-            subscription.setUrl(getArguments().getString(KEY_URL));
-        }
-        viewModel.setView(this, name);
+        subscription.setName(getArguments().getString(KEY_NAME, ""));
+        subscription.setUrl(getArguments().getString(KEY_URL, ""));
+
+        viewModel.setView(this, subscription.getName());
         binding.setSubscription(subscription);
         binding.setHandler(viewModel);
         nameValidatorHelper = new TextInputLayoutValidationHelper(getContext(), binding.tilName);
@@ -74,7 +72,7 @@ public class SubscriptionEditorDialogFragment extends DialogFragment implements 
     }
 
     @Override
-    public Subscription getSubscrition() {
+    public Subscription getSubscription() {
         return new Subscription(binding.name.getText().toString(), binding.url.getText().toString());
     }
 }

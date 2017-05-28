@@ -24,7 +24,7 @@ import rssdemo.andras.hu.rssdemo.data.Subscription;
 import rssdemo.andras.hu.rssdemo.databinding.ActivityFeedBinding;
 import rssdemo.andras.hu.rssdemo.di.Injector;
 
-//30 pomodoros
+//45 pomodoros
 public class FeedActivity extends AppCompatActivity implements FeedView {
 
     private static final long DRAWER_CLOSE_DELAY_MS = 200;
@@ -40,26 +40,46 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_feed);
+        initToolbar();
+        initDrawer();
+        initRecyclerView();
+
+        viewModel.setView(this);
+    }
+
+    private void initToolbar() {
         setSupportActionBar(binding.toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        initDrawer();
+    }
 
+    private void initDrawer() {
+        drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, R.string.app_name, R.string.app_name);
+        binding.drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        binding.navigation.setNavigationItemSelectedListener(this::onNavigationItemSelected);
+    }
+
+    private void initRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
-        viewModel.setView(this);
+    }
+
+    private boolean onNavigationItemSelected(final MenuItem menuItem) {
+        // allow some time after closing the drawer before performing real navigation
+        // so the user can see what is happening. This may seem a bit hacky but in practice
+        // it works noticeably faster than listening to the onDrawerClosed callback
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        drawerActionHandler.postDelayed(() -> viewModel.onDrawerMenuSelection(menuItem), DRAWER_CLOSE_DELAY_MS);
+
+        return true;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         viewModel.onStart();
-    }
-
-    @Override
-    public FeedAdapter getAdapter() {
-        return adapter;
     }
 
     @Override
@@ -70,6 +90,11 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
         for (Subscription subscription : subscriptions) {
             menu.add(R.id.nav_drawer_feeds, order, order++, subscription.getName());
         }
+    }
+
+    @Override
+    public FeedAdapter getAdapter() {
+        return adapter;
     }
 
     @Override
@@ -94,25 +119,8 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
     }
 
     @Override
-    public void shareContent(ShareLinkContent content) {
+    public void showFacebookShareDialog(ShareLinkContent content) {
         ShareDialog.show(this, content);
-    }
-
-    private void initDrawer() {
-        drawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, R.string.app_name, R.string.app_name);
-        binding.drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
-        binding.navigation.setNavigationItemSelectedListener(this::onNavigationItemSelected);
-    }
-
-    private boolean onNavigationItemSelected(final MenuItem menuItem) {
-        // allow some time after closing the drawer before performing real navigation
-        // so the user can see what is happening. This may seem a bit hacky but in practice
-        // it works noticeably faster than listening to the onDrawerClosed callback
-        binding.drawerLayout.closeDrawer(GravityCompat.START);
-        drawerActionHandler.postDelayed(() -> viewModel.onDrawerMenuSelection(menuItem), DRAWER_CLOSE_DELAY_MS);
-
-        return true;
     }
 
     @Override

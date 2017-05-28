@@ -16,14 +16,14 @@ public class SubscriptionEditorViewModel {
         this.subscriptionRepository = subscriptionRepository;
     }
 
-    public void setView(SubscriptionEditorView view, String originalName) {
+    void setView(SubscriptionEditorView view, String originalName) {
         this.view = view;
-        this.isEditMode = originalName != null;
-        this.originalName = originalName == null ? "" : originalName;
+        this.isEditMode = originalName.length() > 0;
+        this.originalName = originalName;
     }
 
     public void onSaveClick() {
-        Subscription subscription = view.getSubscrition();
+        Subscription subscription = view.getSubscription();
         if (validateName(subscription.getName()) & validateUrl(subscription.getUrl())) {
             if (isEditMode) {
                 subscriptionRepository.update(originalName, subscription);

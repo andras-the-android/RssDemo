@@ -1,9 +1,9 @@
 package rssdemo.andras.hu.rssdemo.ui.subscriptions;
 
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,24 +17,29 @@ import rssdemo.andras.hu.rssdemo.ui.subscriptions.editor.SubscriptionEditorDialo
 public class SubscriptionsActivity extends AppCompatActivity implements SubscriptionsView {
 
     public SubscriptionsViewModel viewModel;
-    private SubscriptionsAdapter adapter;
+    public SubscriptionsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Injector.inject(this);
         ActivitySubscriptionsBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_subscriptions);
+        initToolbar(binding);
+        initRecyclerView(binding);
+        viewModel.setView(this);
+    }
 
+    private void initToolbar(ActivitySubscriptionsBinding binding) {
         setSupportActionBar(binding.toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
+    private void initRecyclerView(ActivitySubscriptionsBinding binding) {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        adapter = new SubscriptionsAdapter(this, viewModel);
+        binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.recyclerView.setAdapter(adapter);
-        viewModel.setView(this);
     }
 
     @Override
@@ -57,12 +62,16 @@ public class SubscriptionsActivity extends AppCompatActivity implements Subscrip
                 finish();
                 return true;
             case R.id.add_subscription:
-                SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create();
-                editor.show(getSupportFragmentManager(), "");
-                getSupportFragmentManager().executePendingTransactions();
-                editor.getDialog().setOnDismissListener(dialogInterface -> viewModel.refreshData());
+                openNewEditor();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openNewEditor() {
+        SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create();
+        editor.show(getSupportFragmentManager(), "");
+        getSupportFragmentManager().executePendingTransactions();
+        editor.getDialog().setOnDismissListener(dialogInterface -> viewModel.refreshData());
     }
 }

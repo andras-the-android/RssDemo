@@ -26,48 +26,6 @@ public class SubscriptionRepository {
         loadSubscriptions();
     }
 
-    private void loadSubscriptions() {
-        if (isFirstRun()) {
-            initDefaultSubscriptions();
-        } else {
-            String serializedSubscriptions = sharedPref.getString(KEY_SUBSCRIPTIONS, "");
-            Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<Subscription>>(){}.getType();
-            subscriptions = gson.fromJson(serializedSubscriptions, listType);
-        }
-    }
-
-    private void initDefaultSubscriptions() {
-        subscriptions = new ArrayList<>();
-        Subscription subscription;
-
-        subscription = new Subscription();
-        subscription.setName("Android Police");
-        subscription.setUrl("http://www.androidpolice.com/feed");
-        subscriptions.add(subscription);
-
-        subscription = new Subscription();
-        subscription.setName("XKCD");
-        subscription.setUrl("https://xkcd.com/rss.xml");
-        subscriptions.add(subscription);
-
-        subscription = new Subscription();
-        subscription.setName("Android Authority");
-        subscription.setUrl("http://www.androidauthority.com/feed");
-        subscriptions.add(subscription);
-
-        saveSubscriptions();
-    }
-
-    private void saveSubscriptions() {
-        Gson gson = new Gson();
-        String serializedSubscriptions = gson.toJson(subscriptions);
-
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(KEY_SUBSCRIPTIONS, serializedSubscriptions);
-        editor.apply();
-    }
-
     public List<Subscription> getSubscriptions() {
         return subscriptions;
     }
@@ -102,13 +60,15 @@ public class SubscriptionRepository {
         }
     }
 
-    private Subscription find(String name) {
-        for (Subscription subscription : subscriptions) {
-            if (name.equals(subscription.getName())) {
-                return subscription;
-            }
+    private void loadSubscriptions() {
+        if (isFirstRun()) {
+            initDefaultSubscriptions();
+        } else {
+            String serializedSubscriptions = sharedPref.getString(KEY_SUBSCRIPTIONS, "");
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<Subscription>>(){}.getType();
+            subscriptions = gson.fromJson(serializedSubscriptions, listType);
         }
-        throw new IllegalArgumentException("Non existing title");
     }
 
     private boolean isFirstRun() {
@@ -117,5 +77,45 @@ public class SubscriptionRepository {
             return true;
         }
         return false;
+    }
+
+    private void initDefaultSubscriptions() {
+        subscriptions = new ArrayList<>();
+        Subscription subscription;
+
+        subscription = new Subscription();
+        subscription.setName("Android Police");
+        subscription.setUrl("http://www.androidpolice.com/feed");
+        subscriptions.add(subscription);
+
+        subscription = new Subscription();
+        subscription.setName("XKCD");
+        subscription.setUrl("https://xkcd.com/rss.xml");
+        subscriptions.add(subscription);
+
+        subscription = new Subscription();
+        subscription.setName("Android Authority");
+        subscription.setUrl("http://www.androidauthority.com/feed");
+        subscriptions.add(subscription);
+
+        saveSubscriptions();
+    }
+
+    private void saveSubscriptions() {
+        Gson gson = new Gson();
+        String serializedSubscriptions = gson.toJson(subscriptions);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(KEY_SUBSCRIPTIONS, serializedSubscriptions);
+        editor.apply();
+    }
+
+    private Subscription find(String name) {
+        for (Subscription subscription : subscriptions) {
+            if (name.equals(subscription.getName())) {
+                return subscription;
+            }
+        }
+        throw new IllegalArgumentException("Non existing title");
     }
 }

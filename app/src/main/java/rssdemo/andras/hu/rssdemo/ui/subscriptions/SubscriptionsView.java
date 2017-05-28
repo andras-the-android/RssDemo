@@ -1,6 +1,8 @@
 package rssdemo.andras.hu.rssdemo.ui.subscriptions;
 
 
-public interface SubscriptionsView {
+interface SubscriptionsView {
+
     SubscriptionsAdapter getAdapter();
+
 }

@@ -10,6 +10,7 @@ import rssdemo.andras.hu.rssdemo.ui.Navigator;
 import rssdemo.andras.hu.rssdemo.ui.feed.FeedActivity;
 import rssdemo.andras.hu.rssdemo.ui.feed.FeedAdapter;
 import rssdemo.andras.hu.rssdemo.ui.feed.FeedViewModel;
+import rssdemo.andras.hu.rssdemo.ui.subscriptions.SubscriptionsAdapter;
 import rssdemo.andras.hu.rssdemo.ui.subscriptions.editor.SubscriptionEditorDialogFragment;
 import rssdemo.andras.hu.rssdemo.ui.subscriptions.SubscriptionsActivity;
 import rssdemo.andras.hu.rssdemo.ui.subscriptions.SubscriptionsViewModel;
@@ -36,6 +37,7 @@ public class Injector {
 
     public static void inject(SubscriptionsActivity activity) {
         activity.viewModel = new SubscriptionsViewModel(subscriptionRepository);
+        activity.adapter = new SubscriptionsAdapter(activity, activity.viewModel);
     }
 
     public static void inject(SubscriptionEditorDialogFragment subscriptionEditor) {

@@ -5,7 +5,7 @@ import android.support.annotation.StringRes;
 
 import rssdemo.andras.hu.rssdemo.data.Subscription;
 
-public interface SubscriptionEditorView {
+interface SubscriptionEditorView {
 
     void raiseErrorOnName(@StringRes int messageResId);
 
@@ -13,5 +13,5 @@ public interface SubscriptionEditorView {
 
     void closeEditor();
 
-    Subscription getSubscrition();
+    Subscription getSubscription();
 }

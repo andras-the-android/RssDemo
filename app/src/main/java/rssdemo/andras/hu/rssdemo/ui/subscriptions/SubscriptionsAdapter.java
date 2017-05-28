@@ -26,7 +26,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         this.viewModel = viewModel;
     }
 
-    public void setItems(List<Subscription> items) {
+    void setItems(List<Subscription> items) {
         this.items = items;
         notifyDataSetChanged();
     }

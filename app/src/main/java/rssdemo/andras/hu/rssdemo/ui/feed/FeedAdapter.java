@@ -34,8 +34,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ListItemFeedBinding itemBinding = ListItemFeedBinding.inflate(layoutInflater, parent, false);
-        itemBinding.webview.getSettings().setLoadWithOverviewMode(true);
-        itemBinding.webview.setInitialScale(180);
         return new ViewHolder(itemBinding, navigator);
     }
 
@@ -59,6 +57,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>{
             this.binding = binding;
             this.navigator = navigator;
             binding.setHandler(this);
+            binding.webview.getSettings().setLoadWithOverviewMode(true);
+            binding.webview.setInitialScale(180);
         }
 
         void bindModel(FeedItem item) {

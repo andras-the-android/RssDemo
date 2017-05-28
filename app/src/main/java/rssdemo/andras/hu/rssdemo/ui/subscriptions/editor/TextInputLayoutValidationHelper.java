@@ -10,7 +10,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 
-public class TextInputLayoutValidationHelper {
+class TextInputLayoutValidationHelper {
 
     private EditText editText;
     private Context context;
@@ -18,6 +18,7 @@ public class TextInputLayoutValidationHelper {
     private int red;
     private boolean errorRaised;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -33,22 +34,23 @@ public class TextInputLayoutValidationHelper {
         }
     };
 
-    public TextInputLayoutValidationHelper(Context context, TextInputLayout textInputLayout) {
+    TextInputLayoutValidationHelper(Context context, TextInputLayout textInputLayout) {
         this.context = context;
         this.textInputLayout = textInputLayout;
         editText = textInputLayout.getEditText();
+        //noinspection ConstantConditions
         editText.addTextChangedListener(textWatcher);
         red = ContextCompat.getColor(context, android.R.color.holo_red_dark);
     }
 
-    public void raiseError(@StringRes int errorMessageResId) {
+    void raiseError(@StringRes int errorMessageResId) {
         textInputLayout.setErrorEnabled(true);
         textInputLayout.setError(context.getString(errorMessageResId));
         editText.getBackground().setColorFilter(red, PorterDuff.Mode.SRC_ATOP);
         errorRaised = true;
     }
 
-    public void dismissError() {
+    private void dismissError() {
         if (errorRaised) {
             textInputLayout.setErrorEnabled(false);
             editText.getBackground().clearColorFilter();
@@ -56,7 +58,4 @@ public class TextInputLayoutValidationHelper {
         }
     }
 
-    public boolean isEmpty() {
-        return editText.getText().length() == 0;
-    }
 }

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
 
 import java.util.List;
 
@@ -54,10 +53,9 @@ public class FeedViewModel {
         if (menuItem.getItemId() == R.id.nav_drawer_subscriptions) {
             navigator.goToSubscriptionScreen();
         } else {
-            String name = menuItem.getTitle().toString();
-            selectedFeedTitle = name;
-            view.setTitle(name);
-            loadFeed(subscriptionRepository.getUrlByName(name));
+            selectedFeedTitle = menuItem.getTitle().toString();
+            view.setTitle(selectedFeedTitle);
+            loadFeed(subscriptionRepository.getUrlByName(selectedFeedTitle));
         }
     }
 
@@ -65,7 +63,7 @@ public class FeedViewModel {
         ShareLinkContent content = new ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse(subscriptionRepository.getUrlByName(selectedFeedTitle)))
                 .build();
-        view.shareContent(content);
+        view.showFacebookShareDialog(content);
     }
 
     private void loadFeed(String url) {
