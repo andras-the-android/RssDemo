@@ -48,6 +48,12 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        viewModel.onStart();
+    }
+
+    @Override
     public FeedAdapter getAdapter() {
         return adapter;
     }
@@ -56,6 +62,7 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
     public void populateDrawerMenu(List<Subscription> subscriptions) {
         final Menu menu = binding.navigation.getMenu();
         int order = 0;
+        menu.removeGroup(R.id.nav_drawer_feeds);
         for (Subscription subscription : subscriptions) {
             menu.add(R.id.nav_drawer_feeds, order, order++, subscription.getName());
         }
@@ -64,6 +71,21 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
     @Override
     public void showError() {
         Toast.makeText(this, R.string.errror_load_feed, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showLoaderOverlay() {
+        binding.loaderOverlay.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoaderOverlay() {
+        binding.loaderOverlay.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void setTitle(String name) {
+        getSupportActionBar().setTitle(name);
     }
 
     private void initDrawer() {
@@ -110,15 +132,5 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void showLoaderOverlay() {
-        binding.loaderOverlay.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoaderOverlay() {
-        binding.loaderOverlay.setVisibility(View.GONE);
     }
 }

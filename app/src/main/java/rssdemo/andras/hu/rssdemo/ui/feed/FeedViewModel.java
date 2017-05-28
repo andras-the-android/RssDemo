@@ -32,21 +32,28 @@ public class FeedViewModel {
 
     void setView(FeedView view) {
         this.view = view;
+    }
+
+    void onStart() {
         List<Subscription> subscriptions = subscriptionRepository.getSubscriptions();
         view.populateDrawerMenu(subscriptions);
         if (!subscriptions.isEmpty()) {
-            loadFeed(subscriptions.get(0).getUrl());
+            Subscription subscription = subscriptions.get(0);
+            view.setTitle(subscription.getName());
+            loadFeed(subscription.getUrl());
         }
     }
+
 
     void onDrawerMenuSelection(MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.nav_drawer_subscriptions) {
             navigator.goToSubscriptionScreen();
         } else {
-            loadFeed(subscriptionRepository.getUrlByName(menuItem.getTitle().toString()));
+            String name = menuItem.getTitle().toString();
+            view.setTitle(name);
+            loadFeed(subscriptionRepository.getUrlByName(name));
         }
     }
-
 
     private void loadFeed(String url) {
         view.getAdapter().clear();

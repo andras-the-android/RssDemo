@@ -15,4 +15,6 @@ public interface FeedView {
     void showLoaderOverlay();
 
     void hideLoaderOverlay();
+
+    void setTitle(String name);
 }
