@@ -27,12 +27,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{feedItem.title}"
-
                 tools:text="This movie has a very long title"
                 android:textSize="16sp"
                 android:textColor="@color/primary_text"
                 android:textStyle="bold"
                 android:onClick="@{(view) -> handler.onTitleClick()}"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{feedItem.date}"
+                tools:text="T2017.01.01 17:05"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_text"
+                android:gravity="end"
+                />
 
             <WebView
                 android:id="@+id/webview"

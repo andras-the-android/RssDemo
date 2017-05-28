@@ -6,6 +6,7 @@ import com.einmalfel.earl.Item;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.DataFormatException;
@@ -17,9 +18,11 @@ import rssdemo.andras.hu.rssdemo.network.FeedApi;
 public class FeedConverter {
 
     private FeedApi api;
+    private DateFormat dateFormat;
 
-    public FeedConverter(FeedApi api) {
+    public FeedConverter(FeedApi api, DateFormat dateFormat) {
         this.api = api;
+        this.dateFormat = dateFormat;
     }
 
     Feed convert(String feedUrl) throws IOException, DataFormatException, XmlPullParserException {
@@ -42,7 +45,9 @@ public class FeedConverter {
         item.setTitle(rawFeedItem.getTitle());
         item.setDescription(rawFeedItem.getDescription());
         item.setLink(rawFeedItem.getLink());
-//        item.setDate(rawFeedItem.);
+        if (rawFeedItem.getPublicationDate() != null) {
+            item.setDate(dateFormat.format(rawFeedItem.getPublicationDate()));
+        }
         return item;
     }
 }

@@ -1,6 +1,10 @@
 package rssdemo.andras.hu.rssdemo.di;
 
 import android.content.Context;
+import android.text.format.DateFormat;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import rssdemo.andras.hu.rssdemo.network.FeedApi;
 import rssdemo.andras.hu.rssdemo.repository.FeedConverter;
@@ -25,7 +29,8 @@ public class Injector {
     private static SubscriptionRepository subscriptionRepository;
 
     public static void init(Context context) {
-        feedRepository = new FeedRepository(new FeedConverter(new FeedApi()));
+        java.text.DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
+        feedRepository = new FeedRepository(new FeedConverter(new FeedApi(), dateFormat));
         subscriptionRepository = new SubscriptionRepository(context.getApplicationContext());
     }
 
