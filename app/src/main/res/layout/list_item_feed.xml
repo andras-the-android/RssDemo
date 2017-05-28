@@ -5,6 +5,7 @@
 
     <data>
         <variable name="feedItem" type="rssdemo.andras.hu.rssdemo.data.FeedItem"/>
+        <variable name="handler" type="rssdemo.andras.hu.rssdemo.ui.feed.FeedAdapter.ViewHolder"/>
     </data>
 
     <android.support.v7.widget.CardView
@@ -30,21 +31,14 @@
                 android:ellipsize="end"
                 tools:text="This movie has a very long title"
                 android:textSize="16sp"
-                android:textColor="@color/primary_text"/>
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                android:onClick="@{(view) -> handler.onTitleClick()}"/>
 
-            <ImageView
+            <WebView
+                android:id="@+id/webview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{feedItem.description}"
-                tools:text="This movie has a very long title"
-                android:textSize="16sp"
-                android:textColor="@color/secondary_text"/>
-
-
 
 
         </LinearLayout>

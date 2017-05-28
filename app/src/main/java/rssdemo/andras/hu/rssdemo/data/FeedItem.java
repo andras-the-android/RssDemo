@@ -5,7 +5,6 @@ public class FeedItem {
 
     private String title;
     private String link;
-    private String imageLink;
     private String date;
     private String description;
 
@@ -23,14 +22,6 @@ public class FeedItem {
 
     public void setLink(String link) {
         this.link = link;
-    }
-
-    public String getImageLink() {
-        return imageLink;
-    }
-
-    public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
     }
 
     public String getDate() {

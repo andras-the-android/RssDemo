@@ -25,9 +25,9 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
     private static final long DRAWER_CLOSE_DELAY_MS = 200;
 
     public FeedViewModel viewModel;
+    public FeedAdapter adapter;
     private ActivityFeedBinding binding;
     private ActionBarDrawerToggle drawerToggle;
-    private FeedAdapter adapter;
     private final Handler drawerActionHandler = new Handler();
 
     @Override
@@ -42,7 +42,6 @@ public class FeedActivity extends AppCompatActivity implements FeedView {
         initDrawer();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new FeedAdapter();
         binding.recyclerView.setAdapter(adapter);
         viewModel.setView(this);
     }

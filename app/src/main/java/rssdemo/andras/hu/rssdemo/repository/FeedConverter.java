@@ -43,7 +43,6 @@ public class FeedConverter {
         item.setDescription(rawFeedItem.getDescription());
         item.setLink(rawFeedItem.getLink());
 //        item.setDate(rawFeedItem.);
-        item.setImageLink(rawFeedItem.getImageLink());
         return item;
     }
 }
