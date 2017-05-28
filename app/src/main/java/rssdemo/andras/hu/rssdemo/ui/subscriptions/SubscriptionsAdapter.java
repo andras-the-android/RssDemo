@@ -1,5 +1,6 @@
 package rssdemo.andras.hu.rssdemo.ui.subscriptions;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -18,9 +19,11 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
 
     private List<Subscription> items = Collections.emptyList();
     private AppCompatActivity activity;
+    private SubscriptionsViewModel viewModel;
 
-    public SubscriptionsAdapter(AppCompatActivity activity) {
+    public SubscriptionsAdapter(AppCompatActivity activity, SubscriptionsViewModel viewModel) {
         this.activity = activity;
+        this.viewModel = viewModel;
     }
 
     public void setItems(List<Subscription> items) {
@@ -32,7 +35,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         ListItemSubscriptionBinding itemBinding = ListItemSubscriptionBinding.inflate(layoutInflater, parent, false);
-        return new SubscriptionsAdapter.ViewHolder(activity, itemBinding);
+        return new SubscriptionsAdapter.ViewHolder(activity, itemBinding, viewModel);
     }
 
     @Override
@@ -49,11 +52,13 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
 
         private AppCompatActivity activity;
         private final ListItemSubscriptionBinding binding;
+        private SubscriptionsViewModel viewModel;
 
-        ViewHolder(AppCompatActivity activity, ListItemSubscriptionBinding binding) {
+        ViewHolder(AppCompatActivity activity, ListItemSubscriptionBinding binding, SubscriptionsViewModel viewModel) {
             super(binding.getRoot());
             this.activity = activity;
             this.binding = binding;
+            this.viewModel = viewModel;
         }
 
         void bindModel(Subscription subscription) {
@@ -62,20 +67,39 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         }
 
         public void onOptionsClick() {
+            showPopupMenu();
+        }
+
+        private void showPopupMenu() {
             PopupMenu popup = new PopupMenu(activity, binding.options);
             popup.inflate(R.menu.menu_subscription_item);
             popup.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
-                    case R.id.menu_delete:
-                        break;
                     case R.id.menu_edit:
-                        SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create(binding.getSubscription());
-                        editor.show(activity.getSupportFragmentManager(), "sdcd");
+                        showEditorDialog();
+                        break;
+                    case R.id.menu_delete:
+                        showDeleteDialog();
                         break;
                 }
                 return false;
             });
             popup.show();
+        }
+
+        private void showEditorDialog() {
+            SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create(binding.getSubscription());
+            editor.show(activity.getSupportFragmentManager(), "");
+            activity.getSupportFragmentManager().executePendingTransactions();
+            editor.getDialog().setOnDismissListener(dialogInterface -> viewModel.refreshData());
+        }
+
+        private void showDeleteDialog() {
+            new AlertDialog.Builder(activity)
+                    .setMessage(R.string.delete_confirmaion_message)
+                    .setPositiveButton(R.string.yes, (dialog, which) -> viewModel.deleteSubscription(binding.getSubscription().getName()))
+                    .setNegativeButton(R.string.no, (dialog, which) -> {})
+                    .create().show();
         }
     }
 }

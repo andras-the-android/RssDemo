@@ -3,8 +3,16 @@ package rssdemo.andras.hu.rssdemo.data;
 
 public class Subscription {
 
-    private String name;
-    private String url;
+    private String name = "";
+    private String url = "";
+
+    public Subscription(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
+
+    public Subscription(){
+    }
 
     public String getName() {
         return name;

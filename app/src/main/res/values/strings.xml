@@ -9,4 +9,11 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="add">Add</string>
+    <string name="error_name_mandatory">Name is mandatory</string>
+    <string name="error_name_must_be_unique">Name must be unique</string>
+    <string name="error_url_mandatory">Url is mandatory</string>
+    <string name="error_not_url">Url must be a valid url</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_confirmaion_message">Do you really want to delete this feed?</string>
 </resources>

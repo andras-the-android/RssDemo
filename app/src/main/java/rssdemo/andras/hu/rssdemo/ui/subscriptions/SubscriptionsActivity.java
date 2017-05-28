@@ -1,5 +1,6 @@
 package rssdemo.andras.hu.rssdemo.ui.subscriptions;
 
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +32,7 @@ public class SubscriptionsActivity extends AppCompatActivity implements Subscrip
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        adapter = new SubscriptionsAdapter(this);
+        adapter = new SubscriptionsAdapter(this, viewModel);
         binding.recyclerView.setAdapter(adapter);
         viewModel.setView(this);
     }
@@ -57,7 +58,9 @@ public class SubscriptionsActivity extends AppCompatActivity implements Subscrip
                 return true;
             case R.id.add_subscription:
                 SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create();
-                editor.show(getSupportFragmentManager(), "sdcd");
+                editor.show(getSupportFragmentManager(), "");
+                getSupportFragmentManager().executePendingTransactions();
+                editor.getDialog().setOnDismissListener(dialogInterface -> viewModel.refreshData());
                 return true;
         }
         return super.onOptionsItemSelected(item);
