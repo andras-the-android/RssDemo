@@ -24,7 +24,7 @@ import rssdemo.andras.hu.rssdemo.data.Subscription;
 import rssdemo.andras.hu.rssdemo.databinding.ActivityFeedBinding;
 import rssdemo.andras.hu.rssdemo.di.Injector;
 
-//45 pomodoros
+//50 pomodoros
 public class FeedActivity extends AppCompatActivity implements FeedView {
 
     private static final long DRAWER_CLOSE_DELAY_MS = 200;

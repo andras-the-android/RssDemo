@@ -53,13 +53,17 @@ public class FeedViewModel {
         if (menuItem.getItemId() == R.id.nav_drawer_subscriptions) {
             navigator.goToSubscriptionScreen();
         } else {
-            selectedFeedTitle = menuItem.getTitle().toString();
+            selectedFeedTitle = menuItem.getTitle().toString();;
             view.setTitle(selectedFeedTitle);
             loadFeed(subscriptionRepository.getUrlByName(selectedFeedTitle));
         }
     }
 
     void shareFeed() {
+        if (selectedFeedTitle == null) {
+            return;
+        }
+        
         ShareLinkContent content = new ShareLinkContent.Builder()
                 .setContentUrl(Uri.parse(subscriptionRepository.getUrlByName(selectedFeedTitle)))
                 .build();

@@ -73,6 +73,6 @@ public class SubscriptionEditorDialogFragment extends DialogFragment implements 
 
     @Override
     public Subscription getSubscription() {
-        return new Subscription(binding.name.getText().toString(), binding.url.getText().toString());
+        return new Subscription(binding.name.getText().toString().trim(), binding.url.getText().toString().trim());
     }
 }
