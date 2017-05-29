@@ -48,6 +48,10 @@ public class SubscriptionEditorDialogFragment extends DialogFragment implements 
         subscription.setName(getArguments().getString(KEY_NAME, ""));
         subscription.setUrl(getArguments().getString(KEY_URL, ""));
 
+        if (subscription.getUrl().length() == 0) {
+            subscription.setUrl("http://");
+        }
+
         viewModel.setView(this, subscription.getName());
         binding.setSubscription(subscription);
         binding.setHandler(viewModel);

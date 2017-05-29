@@ -51,6 +51,10 @@ public class SubscriptionEditorViewModel {
             view.raiseErrorOnUrl(R.string.error_url_mandatory);
             return false;
         }
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            view.raiseErrorOnUrl(R.string.error_not_url);
+            return false;
+        }
         return true;
     }
 
