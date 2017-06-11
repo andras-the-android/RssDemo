@@ -41,8 +41,8 @@ public class Injector {
     }
 
     public static void inject(SubscriptionsActivity activity) {
-        activity.viewModel = new SubscriptionsViewModel(subscriptionRepository);
-        activity.adapter = new SubscriptionsAdapter(activity, activity.viewModel);
+        activity.setViewModel(new SubscriptionsViewModel(subscriptionRepository));
+        activity.setAdapter(new SubscriptionsAdapter(activity, activity.getViewModel()));
     }
 
     public static void inject(SubscriptionEditorDialogFragment subscriptionEditor) {
