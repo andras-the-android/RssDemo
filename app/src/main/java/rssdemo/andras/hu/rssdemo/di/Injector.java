@@ -36,8 +36,8 @@ public class Injector {
 
     public static void inject(FeedActivity activity) {
         Navigator navigator = new Navigator(activity);
-        activity.viewModel = new FeedViewModel(feedRepository, subscriptionRepository, navigator);
-        activity.adapter = new FeedAdapter(navigator);
+        activity.setViewModel(new FeedViewModel(feedRepository, subscriptionRepository, navigator));
+        activity.setAdapter(new FeedAdapter(navigator));
     }
 
     public static void inject(SubscriptionsActivity activity) {
