@@ -69,7 +69,7 @@ public class SubscriptionsActivity extends AppCompatActivity implements Subscrip
     }
 
     private void openNewEditor() {
-        SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create();
+        SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.Companion.create();
         editor.show(getSupportFragmentManager(), "");
         getSupportFragmentManager().executePendingTransactions();
         editor.getDialog().setOnDismissListener(dialogInterface -> viewModel.refreshData());

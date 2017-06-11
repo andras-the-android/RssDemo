@@ -46,6 +46,6 @@ public class Injector {
     }
 
     public static void inject(SubscriptionEditorDialogFragment subscriptionEditor) {
-        subscriptionEditor.viewModel = new SubscriptionEditorViewModel(subscriptionRepository);
+        subscriptionEditor.setViewModel(new SubscriptionEditorViewModel(subscriptionRepository));
     }
 }

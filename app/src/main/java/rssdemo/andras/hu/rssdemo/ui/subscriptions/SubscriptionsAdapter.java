@@ -88,7 +88,7 @@ public class SubscriptionsAdapter extends RecyclerView.Adapter<SubscriptionsAdap
         }
 
         private void showEditorDialog() {
-            SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.create(binding.getSubscription());
+            SubscriptionEditorDialogFragment editor = SubscriptionEditorDialogFragment.Companion.create(binding.getSubscription());
             editor.show(activity.getSupportFragmentManager(), "");
             activity.getSupportFragmentManager().executePendingTransactions();
             editor.getDialog().setOnDismissListener(dialogInterface -> viewModel.refreshData());
