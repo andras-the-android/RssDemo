@@ -31,7 +31,8 @@ class FeedAdapter(private val navigator: Navigator) : RecyclerView.Adapter<FeedA
         return items.size
     }
 
-    class ViewHolder internal constructor(private val binding: ListItemFeedBinding, private val navigator: Navigator) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder internal constructor(private val binding: ListItemFeedBinding,
+                                          private val navigator: Navigator) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.handler = this
